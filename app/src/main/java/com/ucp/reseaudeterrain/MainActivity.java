@@ -95,6 +95,6 @@ public class MainActivity extends AppCompatActivity implements Displayable {
     }
 
     public void rightClick(View view) {
-        networkBackendService.sendMessageToServer("Bonjour");
+        networkBackendService.sendMessageToServer("bonjour");
     }
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.ucp.reseaudeterrain.network.services.NetworkBackendService;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -16,16 +17,16 @@ import static java.util.Arrays.copyOf;
  * TODO CHANGE InputStreamReader to DataInputStream
  */
 public class ClientListener implements Runnable {
-    private InputStreamReader flux_entree;
+    private DataInputStream flux_entree;
     private Boolean readyToRead;
     private NetworkBackendService networkBackendService;
 
     /**
-     * @param flux_entree           The reader on the socket
+     * @param inputStream           The reader on the socket
      * @param networkBackendService The service in charge of handling the data received
      */
-    public ClientListener(InputStreamReader flux_entree, NetworkBackendService networkBackendService) {
-        this.flux_entree = flux_entree;
+    public ClientListener(DataInputStream inputStream, NetworkBackendService networkBackendService) {
+        this.flux_entree = inputStream;
         this.networkBackendService = networkBackendService;
     }
 
@@ -37,23 +38,14 @@ public class ClientListener implements Runnable {
 
     @Override
     public void run() {
-        char[] buf = new char[1024];
+        try {
+            String dataReceived = "";
+            dataReceived = this.flux_entree.readUTF();
+            this.networkBackendService.sendMessageToReceiver(dataReceived);
+            Log.d("ClientListener", dataReceived);
 
-        while (this.readyToRead) {
-            try {
-                if (this.flux_entree.ready()) {
-                    int numberOfRealChar = this.flux_entree.read(buf);
-                    char[] shortenedBuffer;
-                    shortenedBuffer = copyOf(buf, numberOfRealChar);
-
-                    System.out.println("ClientListener : READ " + String.valueOf(shortenedBuffer));
-                    this.networkBackendService.sendMessageToReceiver(String.valueOf(shortenedBuffer));
-                    Log.d("ClientListener", String.valueOf(shortenedBuffer));
-                    buf = resetBuffer(buf, 1024);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 

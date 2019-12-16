@@ -4,11 +4,13 @@ import android.util.Log;
 
 import com.ucp.reseaudeterrain.network.runnable.ClientListener;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 
 // TODO CHANGE InputStreamReader to DataInputStream
 public class ClientInterfaceTCP {
@@ -16,7 +18,7 @@ public class ClientInterfaceTCP {
     private Socket socket;
 
     private ClientListener clientListener;
-    private InputStreamReader inputStream;
+    private DataInputStream inputStream;
     private NetworkBackendService networkBackendService;
     private int portNumber;
     private String address;
@@ -79,8 +81,9 @@ public class ClientInterfaceTCP {
             outputStream = new DataOutputStream(socket.getOutputStream());
             Log.d("ClientInterfaceTCP", "PrintWriter creation succesfull");
 
-            inputStream = new InputStreamReader(
-                    socket.getInputStream());
+//            inputStream = new InputStreamReader(
+//                    socket.getInputStream());
+            inputStream = new DataInputStream(socket.getInputStream());
             // We start to listen
             clientListener = new ClientListener(this.inputStream, this.networkBackendService);
             Thread thread = new Thread(clientListener);
