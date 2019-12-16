@@ -27,7 +27,7 @@ public class BackgroundRunnableDisconnection implements Runnable {
 
         try {
             if (this.clientInterfaceTCP.getConnected())
-                this.clientInterfaceTCP.setConnected(this.clientInterfaceTCP.disconect());
+                this.clientInterfaceTCP.setConnected(this.clientInterfaceTCP.disconnect());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
         Toast toast = Toast.makeText(getApplicationContext(), textReceived, Toast.LENGTH_SHORT);
         toast.show();
     }
+
     /**
      * Method use to call the network background service to establish a connection with the server
      */
@@ -94,6 +95,6 @@ public class MainActivity extends AppCompatActivity implements Displayable {
     }
 
     public void rightClick(View view) {
-
+        networkBackendService.sendMessageToServer("Bonjour");
     }
 }

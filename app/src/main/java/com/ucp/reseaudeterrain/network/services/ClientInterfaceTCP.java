@@ -4,18 +4,19 @@ import android.util.Log;
 
 import com.ucp.reseaudeterrain.network.runnable.ClientListener;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+// TODO CHANGE InputStreamReader to DataInputStream
 public class ClientInterfaceTCP {
-    private PrintWriter flux_sortie;
+    private DataOutputStream outputStream;
     private Socket socket;
 
     private ClientListener clientListener;
-    private InputStreamReader flux_entree;
+    private InputStreamReader inputStream;
     private NetworkBackendService networkBackendService;
     private int portNumber;
     private String address;
@@ -23,11 +24,10 @@ public class ClientInterfaceTCP {
 
     public ClientInterfaceTCP(NetworkBackendService networkBackendService) {
         this.socket = null;
-        this.flux_sortie = null;
-        this.flux_entree = null;
+        this.outputStream = null;
+        this.inputStream = null;
         this.portNumber = 5000;
         this.address = "dankest.space";
-        //this.address = "b3n.ddns.net";
         this.isConnected = false;
         this.networkBackendService = networkBackendService;
     }
@@ -35,11 +35,14 @@ public class ClientInterfaceTCP {
     /**
      * Send a string to the server
      *
-     * @param messageTosend Message to send to the server
+     * @param messageToSend Message to send to the server
      */
-    public void sendString(String messageTosend) {
-        this.flux_sortie.print(messageTosend);
-        this.flux_sortie.flush();
+    public void sendString(String messageToSend) {
+        try {
+            this.outputStream.writeUTF(messageToSend);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -49,11 +52,11 @@ public class ClientInterfaceTCP {
      * @return True if the disconnection happened correctly.
      * @throws IOException exception to handle
      */
-    public Boolean disconect() throws IOException {
+    public Boolean disconnect() throws IOException {
 
         this.clientListener.setReadyToRead(false);
-        this.flux_sortie.close();
-        this.flux_entree.close();
+        this.outputStream.close();
+        this.inputStream.close();
         this.socket.close();
         return true;
     }
@@ -73,13 +76,13 @@ public class ClientInterfaceTCP {
             socket = new Socket(this.address, this.portNumber);
             Log.d("ClientInterfaceTCP", "Socket creation succesfull");
             Log.d("ClientInterfaceTCP", "Trying to create PrintWriter");
-            flux_sortie = new PrintWriter(socket.getOutputStream(), true);
+            outputStream = new DataOutputStream(socket.getOutputStream());
             Log.d("ClientInterfaceTCP", "PrintWriter creation succesfull");
 
-            flux_entree = new InputStreamReader(
+            inputStream = new InputStreamReader(
                     socket.getInputStream());
             // We start to listen
-            clientListener = new ClientListener(this.flux_entree, this.networkBackendService);
+            clientListener = new ClientListener(this.inputStream, this.networkBackendService);
             Thread thread = new Thread(clientListener);
             clientListener.setReadyToRead(true);
             thread.start();

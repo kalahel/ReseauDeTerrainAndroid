@@ -13,6 +13,7 @@ import static java.util.Arrays.copyOf;
 /**
  * Runnable class that will only listen what is send by the server
  * and displays it on a TextArea.
+ * TODO CHANGE InputStreamReader to DataInputStream
  */
 public class ClientListener implements Runnable {
     private InputStreamReader flux_entree;
