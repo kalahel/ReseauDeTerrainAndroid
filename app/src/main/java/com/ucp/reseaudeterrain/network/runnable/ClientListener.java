@@ -1,9 +1,9 @@
-package com.ucp.reseaudeterrain.runnable;
+package com.ucp.reseaudeterrain.network.runnable;
 
 
 import android.util.Log;
 
-import com.ucp.reseaudeterrain.services.NetworkBackendService;
+import com.ucp.reseaudeterrain.network.services.NetworkBackendService;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

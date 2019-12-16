@@ -1,7 +1,7 @@
-package com.ucp.reseaudeterrain.runnable;
+package com.ucp.reseaudeterrain.network.runnable;
 
-import com.ucp.reseaudeterrain.services.ClientInterfaceTCP;
-import com.ucp.reseaudeterrain.services.NetworkBackendService;
+import com.ucp.reseaudeterrain.network.services.ClientInterfaceTCP;
+import com.ucp.reseaudeterrain.network.services.NetworkBackendService;
 
 /**
  * It's mandatory to use thread to use socket

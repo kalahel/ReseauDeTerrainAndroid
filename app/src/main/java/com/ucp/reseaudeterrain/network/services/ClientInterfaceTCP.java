@@ -1,8 +1,8 @@
-package com.ucp.reseaudeterrain.services;
+package com.ucp.reseaudeterrain.network.services;
 
 import android.util.Log;
 
-import com.ucp.reseaudeterrain.runnable.ClientListener;
+import com.ucp.reseaudeterrain.network.runnable.ClientListener;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,7 +26,7 @@ public class ClientInterfaceTCP {
         this.flux_sortie = null;
         this.flux_entree = null;
         this.portNumber = 5000;
-        this.address = "dankest.ddns.net";
+        this.address = "dankest.space";
         //this.address = "b3n.ddns.net";
         this.isConnected = false;
         this.networkBackendService = networkBackendService;

@@ -1,4 +1,4 @@
-package com.ucp.reseaudeterrain.services;
+package com.ucp.reseaudeterrain.network.services;
 
 import android.app.Service;
 import android.content.Intent;
@@ -6,9 +6,9 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.ucp.reseaudeterrain.runnable.BackgroundRunnableConnection;
-import com.ucp.reseaudeterrain.runnable.BackgroundRunnableDisconnection;
-import com.ucp.reseaudeterrain.runnable.BackgroundRunnableSendString;
+import com.ucp.reseaudeterrain.network.runnable.BackgroundRunnableConnection;
+import com.ucp.reseaudeterrain.network.runnable.BackgroundRunnableDisconnection;
+import com.ucp.reseaudeterrain.network.runnable.BackgroundRunnableSendString;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -20,7 +20,7 @@ public class NetworkBackendService extends Service {
     public final static String NETWORK_MESSAGE_TAG = "com.example.mat.networktestclient.backend.services.NetworkBackendService.MESSAGE_VALUE";
 
     int mStartMode;       // indicates how to behave if the service is killed
-    private final IBinder mBinder = (IBinder) new LocalBinder();      // interface for clients that bind
+    private final IBinder mBinder = new LocalBinder();      // interface for clients that bind
     boolean mAllowRebind; // indicates whether onRebind should be used
     private ClientInterfaceTCP clientInterfaceTCP; // Backend class used for connection
     private LocalBroadcastManager localBroadcastManager;
