@@ -114,4 +114,15 @@
         app:layout_constraintStart_toStartOf="@+id/buttonStateView"
         app:layout_constraintTop_toTopOf="@+id/connexionTextView"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/retryConnectionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Retry connection"
+        android:onClick="retryConnection"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rightCommandButton"
+        app:layout_constraintStart_toStartOf="@+id/leftCommandButton"
+        app:layout_constraintTop_toBottomOf="@+id/motorControlText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

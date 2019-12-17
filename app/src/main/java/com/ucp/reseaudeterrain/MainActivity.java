@@ -13,6 +13,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,18 +29,22 @@ public class MainActivity extends AppCompatActivity implements Displayable {
     private TextView buttonStateView;
     private TextView sensorStateView;
     private TextView connexionStateView;
+    private Button retryConnectionButton;
     private LocalBroadcastManager localBroadcastManager;
     private NetworkBackendService networkBackendService;
     private boolean mBound = false;
+    private boolean isConnected;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.isConnected = false;
 
         buttonStateView = findViewById(R.id.buttonStateView);
         sensorStateView = findViewById(R.id.sensorStateView);
         connexionStateView = findViewById(R.id.connexionStateView);
+        retryConnectionButton = findViewById(R.id.retryConnectionButton);
         this.localBroadcastManager = LocalBroadcastManager.getInstance(this);   // Get an instance of a broadcast manager
         BroadcastReceiver myReceiver = new NetworkReceiver(this);     // Create a class and set in it the behavior when an information is received
         IntentFilter intentFilter = new IntentFilter(FILTER_MAIN_ACTIVITY);     // The intentFilter action should match the action of the intent send
@@ -82,22 +87,26 @@ public class MainActivity extends AppCompatActivity implements Displayable {
             case BackgroundRunnableConnection
                     .SERVER_REACHED_TAG:
                 this.connexionStateView.setText("Connected");
+                this.retryConnectionButton.setVisibility(View.INVISIBLE);
+                this.isConnected = true;
                 break;
             case BackgroundRunnableConnection
                     .SERVER_UNREACHABLE_TAG:
             case ClientListener
                     .CONNEXION_LOST_TAG:
                 this.connexionStateView.setText("Disconnected");
+                this.retryConnectionButton.setVisibility(View.VISIBLE);
+                this.isConnected = false;
                 break;
         }
     }
 
     /**
-     * Method use to call the network background service to establish a connection with the server
+     * Method use to call the network background service to re-establish a connection with the server
      */
-    public void establishConnection() {
-        Toast.makeText(this, "Trying to establish connection", Toast.LENGTH_SHORT).show();
-        networkBackendService.establishConnection();
+    public void reEstablishConnection() {
+        Toast.makeText(this, "Trying to re-establish connection", Toast.LENGTH_SHORT).show();
+        networkBackendService.reEstablishConnection();
     }
 
     /***
@@ -116,5 +125,11 @@ public class MainActivity extends AppCompatActivity implements Displayable {
 
     public void leftClick(View view) {
         networkBackendService.sendMessageToServer("left");
+    }
+
+    public void retryConnection(View view) {
+        if (!isConnected) {
+            this.reEstablishConnection();
+        }
     }
 }

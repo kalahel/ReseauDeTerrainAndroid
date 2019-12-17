@@ -121,6 +121,12 @@ public class NetworkBackendService extends Service {
         //this.sendMessageToServer("BPING");
     }
 
+    public void reEstablishConnection(){
+        this.clientInterfaceTCP = new ClientInterfaceTCP(this);
+        Log.d(CLASS_TAG, "Trying To reconnect");
+        new Thread(new BackgroundRunnableConnection(this, this.clientInterfaceTCP)).start();
+    }
+
     /**
      * Will use a thread to send a message to the server
      *
