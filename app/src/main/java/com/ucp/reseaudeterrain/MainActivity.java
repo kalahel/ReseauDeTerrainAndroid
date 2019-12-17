@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.ucp.reseaudeterrain.network.NetworkReceiver;
 import com.ucp.reseaudeterrain.network.runnable.BackgroundRunnableConnection;
+import com.ucp.reseaudeterrain.network.runnable.ClientListener;
 import com.ucp.reseaudeterrain.network.services.Displayable;
 import com.ucp.reseaudeterrain.network.services.NetworkBackendService;
 
@@ -77,13 +78,15 @@ public class MainActivity extends AppCompatActivity implements Displayable {
     public void handleTextReception(String textReceived) {
         Toast toast = Toast.makeText(getApplicationContext(), textReceived, Toast.LENGTH_SHORT);
         toast.show();
-        switch (textReceived){
+        switch (textReceived) {
             case BackgroundRunnableConnection
-                    .SERVER_REACHED_TAG :
+                    .SERVER_REACHED_TAG:
                 this.connexionStateView.setText("Connected");
                 break;
             case BackgroundRunnableConnection
-                    .SERVER_UNREACHABLE_TAG :
+                    .SERVER_UNREACHABLE_TAG:
+            case ClientListener
+                    .CONNEXION_LOST_TAG:
                 this.connexionStateView.setText("Disconnected");
                 break;
         }

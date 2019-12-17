@@ -50,7 +50,7 @@ public class ClientInterfaceTCP {
      */
     public Boolean disconnect() throws IOException {
 
-        this.clientListener.setReadyToRead(false);
+        this.clientListener.setIsReadyToRead(false);
         this.outputStream.close();
         this.inputStream.close();
         this.socket.close();
@@ -70,6 +70,7 @@ public class ClientInterfaceTCP {
         try {
             Log.d("ClientInterfaceTCP", "Trying to create Socket");
             socket = new Socket(this.address, this.portNumber);
+//            socket.setSoTimeout(1000);
             Log.d("ClientInterfaceTCP", "Socket creation succesfull");
             Log.d("ClientInterfaceTCP", "Trying to create PrintWriter");
             outputStream = new PrintWriter(socket.getOutputStream());
@@ -78,9 +79,9 @@ public class ClientInterfaceTCP {
             inputStream = new InputStreamReader(socket.getInputStream());
 //            inputStream = new DataInputStream(socket.getInputStream());
             // We start to listen
-            clientListener = new ClientListener(this.inputStream, this.networkBackendService);
+            clientListener = new ClientListener(this.inputStream, this.networkBackendService, this);
             Thread thread = new Thread(clientListener);
-            clientListener.setReadyToRead(true);
+            clientListener.setIsReadyToRead(true);
             thread.start();
 
         } catch (UnknownHostException e) {
