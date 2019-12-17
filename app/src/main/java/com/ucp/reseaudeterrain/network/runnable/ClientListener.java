@@ -4,8 +4,6 @@ package com.ucp.reseaudeterrain.network.runnable;
 import android.util.Log;
 
 import com.ucp.reseaudeterrain.network.services.NetworkBackendService;
-
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -14,10 +12,9 @@ import static java.util.Arrays.copyOf;
 /**
  * Runnable class that will only listen what is send by the server
  * and displays it on a TextArea.
- * TODO CHANGE InputStreamReader to DataInputStream
  */
 public class ClientListener implements Runnable {
-    private DataInputStream flux_entree;
+    private InputStreamReader inputStream;
     private Boolean readyToRead;
     private NetworkBackendService networkBackendService;
 
@@ -25,8 +22,8 @@ public class ClientListener implements Runnable {
      * @param inputStream           The reader on the socket
      * @param networkBackendService The service in charge of handling the data received
      */
-    public ClientListener(DataInputStream inputStream, NetworkBackendService networkBackendService) {
-        this.flux_entree = inputStream;
+    public ClientListener(InputStreamReader inputStream, NetworkBackendService networkBackendService) {
+        this.inputStream = inputStream;
         this.networkBackendService = networkBackendService;
     }
 
@@ -38,14 +35,23 @@ public class ClientListener implements Runnable {
 
     @Override
     public void run() {
-        try {
-            String dataReceived = "";
-            dataReceived = this.flux_entree.readUTF();
-            this.networkBackendService.sendMessageToReceiver(dataReceived);
-            Log.d("ClientListener", dataReceived);
+        char[] buf = new char[1024];
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        while (this.readyToRead) {
+            try {
+                if (this.inputStream.ready()) {
+                    int numberOfRealChar = this.inputStream.read(buf);
+                    char[] shortenedBuffer;
+                    shortenedBuffer = copyOf(buf, numberOfRealChar);
+
+                    System.out.println("ClientListener : READ " + String.valueOf(shortenedBuffer));
+                    this.networkBackendService.sendMessageToReceiver(String.valueOf(shortenedBuffer));
+                    Log.d("ClientListener", String.valueOf(shortenedBuffer));
+                    buf = resetBuffer(buf, 1024);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
 

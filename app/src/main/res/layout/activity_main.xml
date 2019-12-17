@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LEFT"
+        android:onClick="leftClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.241"
@@ -37,7 +38,7 @@
         android:text="Disconnected"
         app:layout_constraintBottom_toBottomOf="@+id/buttonTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintHorizontal_bias="0.314"
         app:layout_constraintStart_toEndOf="@+id/buttonTextView"
         app:layout_constraintTop_toTopOf="@+id/buttonTextView"
         app:layout_constraintVertical_bias="0.0" />
@@ -89,4 +90,28 @@
         app:layout_constraintStart_toEndOf="@+id/leftCommandButton"
         app:layout_constraintTop_toBottomOf="@+id/motorControlText"
         app:layout_constraintVertical_bias="0.052" />
+
+    <TextView
+        android:id="@+id/connexionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connexion current state :"
+        app:layout_constraintBottom_toTopOf="@+id/buttonTextView"
+        app:layout_constraintEnd_toEndOf="@+id/buttonTextView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/buttonTextView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.959" />
+
+    <TextView
+        android:id="@+id/connexionStateView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disconnected"
+        app:layout_constraintBottom_toBottomOf="@+id/connexionTextView"
+        app:layout_constraintEnd_toEndOf="@+id/buttonStateView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/buttonStateView"
+        app:layout_constraintTop_toTopOf="@+id/connexionTextView"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ucp.reseaudeterrain.network.NetworkReceiver;
+import com.ucp.reseaudeterrain.network.runnable.BackgroundRunnableConnection;
 import com.ucp.reseaudeterrain.network.services.Displayable;
 import com.ucp.reseaudeterrain.network.services.NetworkBackendService;
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
 
     private TextView buttonStateView;
     private TextView sensorStateView;
+    private TextView connexionStateView;
     private LocalBroadcastManager localBroadcastManager;
     private NetworkBackendService networkBackendService;
     private boolean mBound = false;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
 
         buttonStateView = findViewById(R.id.buttonStateView);
         sensorStateView = findViewById(R.id.sensorStateView);
+        connexionStateView = findViewById(R.id.connexionStateView);
         this.localBroadcastManager = LocalBroadcastManager.getInstance(this);   // Get an instance of a broadcast manager
         BroadcastReceiver myReceiver = new NetworkReceiver(this);     // Create a class and set in it the behavior when an information is received
         IntentFilter intentFilter = new IntentFilter(FILTER_MAIN_ACTIVITY);     // The intentFilter action should match the action of the intent send
@@ -74,6 +77,16 @@ public class MainActivity extends AppCompatActivity implements Displayable {
     public void handleTextReception(String textReceived) {
         Toast toast = Toast.makeText(getApplicationContext(), textReceived, Toast.LENGTH_SHORT);
         toast.show();
+        switch (textReceived){
+            case BackgroundRunnableConnection
+                    .SERVER_REACHED_TAG :
+                this.connexionStateView.setText("Connected");
+                break;
+            case BackgroundRunnableConnection
+                    .SERVER_UNREACHABLE_TAG :
+                this.connexionStateView.setText("Disconnected");
+                break;
+        }
     }
 
     /**
@@ -96,5 +109,9 @@ public class MainActivity extends AppCompatActivity implements Displayable {
 
     public void rightClick(View view) {
         networkBackendService.sendMessageToServer("bonjour");
+    }
+
+    public void leftClick(View view) {
+        networkBackendService.sendMessageToServer("left");
     }
 }

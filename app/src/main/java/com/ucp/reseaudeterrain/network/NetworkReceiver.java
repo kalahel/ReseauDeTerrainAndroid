@@ -32,6 +32,5 @@ public class NetworkReceiver extends BroadcastReceiver {
         Log.d("BROADCAST_RECEIVER", messageReceived);
         this.displayable.handleTextReception(messageReceived);
 
-
     }
 }

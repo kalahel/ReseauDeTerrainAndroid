@@ -4,21 +4,18 @@ import android.util.Log;
 
 import com.ucp.reseaudeterrain.network.runnable.ClientListener;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
 
-// TODO CHANGE InputStreamReader to DataInputStream
 public class ClientInterfaceTCP {
-    private DataOutputStream outputStream;
+    private PrintWriter outputStream;
     private Socket socket;
 
     private ClientListener clientListener;
-    private DataInputStream inputStream;
+    private InputStreamReader inputStream;
     private NetworkBackendService networkBackendService;
     private int portNumber;
     private String address;
@@ -40,11 +37,8 @@ public class ClientInterfaceTCP {
      * @param messageToSend Message to send to the server
      */
     public void sendString(String messageToSend) {
-        try {
-            this.outputStream.writeUTF(messageToSend);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.outputStream.println(messageToSend);
+        this.outputStream.flush();
     }
 
     /**
@@ -78,12 +72,11 @@ public class ClientInterfaceTCP {
             socket = new Socket(this.address, this.portNumber);
             Log.d("ClientInterfaceTCP", "Socket creation succesfull");
             Log.d("ClientInterfaceTCP", "Trying to create PrintWriter");
-            outputStream = new DataOutputStream(socket.getOutputStream());
+            outputStream = new PrintWriter(socket.getOutputStream());
             Log.d("ClientInterfaceTCP", "PrintWriter creation succesfull");
 
-//            inputStream = new InputStreamReader(
-//                    socket.getInputStream());
-            inputStream = new DataInputStream(socket.getInputStream());
+            inputStream = new InputStreamReader(socket.getInputStream());
+//            inputStream = new DataInputStream(socket.getInputStream());
             // We start to listen
             clientListener = new ClientListener(this.inputStream, this.networkBackendService);
             Thread thread = new Thread(clientListener);
@@ -95,6 +88,8 @@ public class ClientInterfaceTCP {
             return false;
         } catch (IOException e) {
             e.printStackTrace();
+            System.err.println("Can't connect");
+
             return false;
         }
         return true;

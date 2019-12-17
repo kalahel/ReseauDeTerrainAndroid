@@ -6,6 +6,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.ucp.reseaudeterrain.MainActivity;
 import com.ucp.reseaudeterrain.network.runnable.BackgroundRunnableConnection;
 import com.ucp.reseaudeterrain.network.runnable.BackgroundRunnableDisconnection;
 import com.ucp.reseaudeterrain.network.runnable.BackgroundRunnableSendString;
@@ -105,56 +106,9 @@ public class NetworkBackendService extends Service {
      * @param message Message to send to the receiver
      */
     public void sendMessageToReceiver(String message) {
-//        if (message.equals("BPONG") || message.equals(BackgroundRunnableConnection.SERVER_UNREACHABLE_TAG)) {
-//            Intent intent = new Intent(MainMenuActivity.FILTER_MAIN_MENU);
-//            intent.putExtra(MESSAGE_SEND_TAG, message);
-//            this.localBroadcastManager.sendBroadcast(intent);
-//        }
-//        String[] slicedMessage = message.split(",");
-//
-//        if (slicedMessage[0].equals("BLOGIN")) {                                            // Authentification
-//            if (slicedMessage[1].equals("0")) {                                             // Authentification successful
-//                Intent intent = new Intent(ConnectionActivity.FILTER_CONNECTION);
-//                intent.putExtra(MESSAGE_SEND_TAG, "0");
-//                this.localBroadcastManager.sendBroadcast(intent);
-//                this.setAuthentified(true);
-//            } else {                                                                        // Authentification failed
-//                Intent intent = new Intent(ConnectionActivity.FILTER_CONNECTION);
-//                intent.putExtra(MESSAGE_SEND_TAG, slicedMessage[1]);
-//                this.localBroadcastManager.sendBroadcast(intent);
-//            }
-//        }
-//        else if (slicedMessage[0].equals("BCLASSESA")) {                                    // Reception of available classes
-//            Intent intent = new Intent(ConnectionActivity.FILTER_CONNECTION);
-//            intent.putExtra(MESSAGE_SEND_TAG, message);
-//            this.localBroadcastManager.sendBroadcast(intent);
-//        }
-//        else if (slicedMessage[0].equals("BCLASSESACK")) {                                  // Reception of acknowledgement of classes choice
-//            this.sendMessageToServer("BSPELLSR");                             // Requesting list of spells available for this class
-//        }
-//        else if (slicedMessage[0].equals("BSPELLSA")) {                                     // Reception of available spells
-//            Intent intent = new Intent(ClassesActivity.FILTER_CLASSES);
-//            intent.putExtra(MESSAGE_SEND_TAG, message);
-//            this.localBroadcastManager.sendBroadcast(intent);
-//        }
-//        else if (message.equals("BSPELLSACK")) {                                            // Confirmation of spells selections
-//            Intent intent = new Intent(TrueSpellSelectionActivity.FILTER_SPELLS);
-//            intent.putExtra(MESSAGE_SEND_TAG, message);
-//            this.localBroadcastManager.sendBroadcast(intent);
-//        }
-//        else if (slicedMessage[0].equals("BMATCH")) {                                       // The server has found an opponent and started a game
-//            Intent intent = new Intent(SpellSelectionActivity.FILTER_MATCHMAKING);
-//            intent.putExtra(MESSAGE_SEND_TAG, message);
-//            this.localBroadcastManager.sendBroadcast(intent);
-//        }
-//        else if (slicedMessage[0].equals("BREF") || message.equals("BWIN") || message.equals("BLOSE")) {    // The server send new player info or notify the result of the fight
-//            Intent intent = new Intent(MainActivity.FILTER_GAME);
-//            intent.putExtra(MESSAGE_SEND_TAG, message);
-//            this.localBroadcastManager.sendBroadcast(intent);
-//        }
-//        else{
-//            Log.e("NETWORK_RECEPTION ",message);
-//        }
+        Intent intent = new Intent(MainActivity.FILTER_MAIN_ACTIVITY);
+        intent.putExtra(MESSAGE_SEND_TAG, message);
+        this.localBroadcastManager.sendBroadcast(intent);
     }
 
     /**
