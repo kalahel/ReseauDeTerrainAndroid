@@ -23,6 +23,8 @@ import com.ucp.reseaudeterrain.network.runnable.ClientListener;
 import com.ucp.reseaudeterrain.network.services.Displayable;
 import com.ucp.reseaudeterrain.network.services.NetworkBackendService;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity implements Displayable {
     public final static String FILTER_MAIN_ACTIVITY = "com.ucp.reseaudeterrain.MainActivity.FILTER_MAIN_ACTIVITY";
 
@@ -120,11 +122,23 @@ public class MainActivity extends AppCompatActivity implements Displayable {
     }
 
     public void rightClick(View view) {
-        networkBackendService.sendMessageToServer("bonjour");
+        networkBackendService.sendMessageToServer(NetworkBackendService.LOCAL_DEST_TAG + "," +
+                NetworkBackendService.SOURCE_TAG + "," +
+                (new Date()).getTime() / 1000 + "," +
+                "SET," +
+                2 + "," +
+                "m0," +
+                "10:0");
     }
 
     public void leftClick(View view) {
-        networkBackendService.sendMessageToServer("left");
+        networkBackendService.sendMessageToServer(NetworkBackendService.LOCAL_DEST_TAG + "," +
+                NetworkBackendService.SOURCE_TAG + "," +
+                (new Date()).getTime() / 1000 + "," +
+                "SET," +
+                2 + "," +
+                "m0," +
+                "-10:0");
     }
 
     public void retryConnection(View view) {

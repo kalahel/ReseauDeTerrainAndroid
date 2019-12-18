@@ -26,7 +26,7 @@ public class ClientInterfaceTCP {
         this.outputStream = null;
         this.inputStream = null;
         this.portNumber = 5000;
-        this.address = "dankest.space";
+        this.address = "rt.totalementbarre.fr";
         this.isConnected = false;
         this.networkBackendService = networkBackendService;
     }

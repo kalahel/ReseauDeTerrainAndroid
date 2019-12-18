@@ -11,6 +11,8 @@ import com.ucp.reseaudeterrain.network.runnable.BackgroundRunnableConnection;
 import com.ucp.reseaudeterrain.network.runnable.BackgroundRunnableDisconnection;
 import com.ucp.reseaudeterrain.network.runnable.BackgroundRunnableSendString;
 
+import java.util.Date;
+
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 
@@ -19,6 +21,9 @@ public class NetworkBackendService extends Service {
     public final static String CLASS_TAG = "NetworkBackendService";
     public final static String NETWORK_INTENT_TAG = "com.example.mat.networktestclient.backend.services.NetworkBackendService.NETWORK_VALUE";
     public final static String NETWORK_MESSAGE_TAG = "com.example.mat.networktestclient.backend.services.NetworkBackendService.MESSAGE_VALUE";
+    public final static String SOURCE_TAG = "phone";
+    public final static String LOCAL_DEST_TAG = "local";
+
 
     int mStartMode;       // indicates how to behave if the service is killed
     private final IBinder mBinder = new LocalBinder();      // interface for clients that bind
@@ -119,9 +124,10 @@ public class NetworkBackendService extends Service {
         Log.d(CLASS_TAG, "Trying To connect");
         new Thread(new BackgroundRunnableConnection(this, this.clientInterfaceTCP)).start();
         //this.sendMessageToServer("BPING");
+        this.sendMessageToServer("," + SOURCE_TAG + "," + (new Date()).getTime() / 1000 + ",AUTH,,," + SOURCE_TAG);
     }
 
-    public void reEstablishConnection(){
+    public void reEstablishConnection() {
         this.clientInterfaceTCP = new ClientInterfaceTCP(this);
         Log.d(CLASS_TAG, "Trying To reconnect");
         new Thread(new BackgroundRunnableConnection(this, this.clientInterfaceTCP)).start();
