@@ -13,9 +13,10 @@
         android:text="Motor command :"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.613" />
 
     <Button
         android:id="@+id/resetCommandButton"
@@ -63,9 +64,10 @@
         android:text="Retry connection"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rightCommandButton"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/leftCommandButton"
         app:layout_constraintTop_toBottomOf="@+id/motorControlText"
-        app:layout_constraintVertical_bias="0.681" />
+        app:layout_constraintVertical_bias="0.85" />
 
     <Button
         android:id="@+id/rightCommandButton"
@@ -88,7 +90,7 @@
         android:text="up"
         app:layout_constraintBottom_toTopOf="@+id/retryConnectionButton"
         app:layout_constraintEnd_toEndOf="@+id/motorControlText"
-        app:layout_constraintHorizontal_bias="0.692"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/motorControlText"
         app:layout_constraintTop_toBottomOf="@+id/motorControlText"
         app:layout_constraintVertical_bias="0.087" />
@@ -133,12 +135,13 @@
         android:id="@+id/sensorTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sensor current state :"
+        android:text="Photoresistor value :"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/buttonTextView"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/buttonTextView"
         app:layout_constraintTop_toBottomOf="@+id/buttonTextView"
-        app:layout_constraintVertical_bias="0.018" />
+        app:layout_constraintVertical_bias="0.024" />
 
     <TextView
         android:id="@+id/sensorStateView"
@@ -209,5 +212,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.082" />
+
+    <TextView
+        android:id="@+id/ultraSoundTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ultrasound sensor value :"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/sensorTextView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/sensorTextView"
+        app:layout_constraintTop_toBottomOf="@+id/sensorTextView"
+        app:layout_constraintVertical_bias="0.026" />
+
+    <TextView
+        android:id="@+id/ultraSoundStateView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disconnected"
+        app:layout_constraintBottom_toBottomOf="@+id/ultraSoundTextView"
+        app:layout_constraintEnd_toEndOf="@+id/sensorStateView"
+        app:layout_constraintStart_toStartOf="@+id/sensorStateView"
+        app:layout_constraintTop_toTopOf="@+id/ultraSoundTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
@@ -35,11 +36,16 @@ public class MainActivity extends AppCompatActivity implements Displayable {
     public final static String PROTOCOL_DISCONNECT = "DISC";
     public final static String PROTOCOL_GET = "GET";
     public final static String PROTOCOL_MOTOR = "m0";
+    public final static String PROTOCOL_BUTTON_SENSOR = "b0";
+    public final static String PROTOCOL_LIGHT_SENSOR = "b1";
+    public final static String PROTOCOL_ULTRASOUND_SENSOR = "b2";
+
 
     private TextView buttonStateView;
     private TextView sensorStateView;
     private TextView motorStateView;
     private TextView connexionStateView;
+    private TextView ultraSoundStateView;
     private WebView webView;
     private Switch allowStreamVideo;
     private Button retryConnectionButton;
@@ -58,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
         sensorStateView = findViewById(R.id.sensorStateView);
         motorStateView = findViewById(R.id.motorStateView);
         connexionStateView = findViewById(R.id.connexionStateView);
+        ultraSoundStateView = findViewById(R.id.ultraSoundStateView);
         retryConnectionButton = findViewById(R.id.retryConnectionButton);
         webView = findViewById(R.id.webViewer);
         allowStreamVideo = findViewById(R.id.allowStreamVideo);
@@ -69,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
-        webView.setWebViewClient(new WebViewClient(){
+        webView.setWebViewClient(new WebViewClient() {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -77,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
 
                 return true;
             }
+
             @Override
             public void onPageFinished(WebView view, final String url) {
             }
@@ -114,8 +122,8 @@ public class MainActivity extends AppCompatActivity implements Displayable {
     @Override
     public void handleTextReception(String textReceived) {
         // Todo remove
-        Toast toast = Toast.makeText(getApplicationContext(), textReceived, Toast.LENGTH_SHORT);
-        toast.show();
+        //Toast toast = Toast.makeText(getApplicationContext(), textReceived, Toast.LENGTH_SHORT);
+        //toast.show();
         switch (textReceived) {
             case BackgroundRunnableConnection
                     .SERVER_REACHED_TAG:
@@ -128,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
             case ClientListener
                     .CONNEXION_LOST_TAG:
                 this.connexionStateView.setText("Disconnected");
-                this.motorStateView.setText("Disconnected");
+                setSensorsDisconnected();
                 this.retryConnectionButton.setVisibility(View.VISIBLE);
                 this.isConnected = false;
                 break;
@@ -137,20 +145,33 @@ public class MainActivity extends AppCompatActivity implements Displayable {
                 if (receivedStrings.length == 7) {
                     // Type
                     switch (receivedStrings[3]) {
-                        case PROTOCOL_DISCONNECT :
-                            motorStateView.setText("Disconnect");
+                        case PROTOCOL_DISCONNECT:
+                            setSensorsDisconnected();
                             break;
                         default:
                             // Sensor ID
                             switch (receivedStrings[5]) {
                                 case PROTOCOL_MOTOR:
                                     motorStateView.setText(receivedStrings[6]);
+                                    motorStateView.setTextColor(Color.BLACK);
+                                    break;
+                                case PROTOCOL_BUTTON_SENSOR :
+                                    buttonStateView.setText(receivedStrings[6]);
+                                    buttonStateView.setTextColor(Color.BLACK);
+                                    break;
+                                case PROTOCOL_LIGHT_SENSOR :
+                                    sensorStateView.setText(receivedStrings[6]);
+                                    sensorStateView.setTextColor(Color.BLACK);
+                                    break;
+                                case PROTOCOL_ULTRASOUND_SENSOR :
+                                    ultraSoundStateView.setText(receivedStrings[6]);
+                                    ultraSoundStateView.setTextColor(Color.BLACK);
                                     break;
                             }
                             break;
                     }
                 } else {
-                    toast = Toast.makeText(getApplicationContext(), textReceived, Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), textReceived, Toast.LENGTH_SHORT);
                     toast.show();
                 }
         }
@@ -231,12 +252,23 @@ public class MainActivity extends AppCompatActivity implements Displayable {
     }
 
     public void allowStreamVideoClick(View view) {
-        if(allowStreamVideo.isChecked()){
+        if (allowStreamVideo.isChecked()) {
             webView.loadUrl("http://rt.totalementbarre.fr:10000/mjpeg");
-        }
-        else{
+        } else {
             webView.stopLoading();
             webView.clearCache(true);
         }
+    }
+
+    private void setSensorsDisconnected() {
+        sensorStateView.setText("Disconnected");
+        sensorStateView.setTextColor(Color.RED);
+        motorStateView.setText("Disconnected");
+        motorStateView.setTextColor(Color.RED);
+        ultraSoundStateView.setText("Disconnected");
+        ultraSoundStateView.setTextColor(Color.RED);
+        buttonStateView.setText("Disconnected");
+        buttonStateView.setTextColor(Color.RED);
+
     }
 }
