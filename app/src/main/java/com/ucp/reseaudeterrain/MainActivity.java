@@ -13,7 +13,11 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,11 +36,12 @@ public class MainActivity extends AppCompatActivity implements Displayable {
     public final static String PROTOCOL_GET = "GET";
     public final static String PROTOCOL_MOTOR = "m0";
 
-
     private TextView buttonStateView;
     private TextView sensorStateView;
     private TextView motorStateView;
     private TextView connexionStateView;
+    private WebView webView;
+    private Switch allowStreamVideo;
     private Button retryConnectionButton;
     private LocalBroadcastManager localBroadcastManager;
     private NetworkBackendService networkBackendService;
@@ -54,10 +59,28 @@ public class MainActivity extends AppCompatActivity implements Displayable {
         motorStateView = findViewById(R.id.motorStateView);
         connexionStateView = findViewById(R.id.connexionStateView);
         retryConnectionButton = findViewById(R.id.retryConnectionButton);
+        webView = findViewById(R.id.webViewer);
+        allowStreamVideo = findViewById(R.id.allowStreamVideo);
         this.localBroadcastManager = LocalBroadcastManager.getInstance(this);   // Get an instance of a broadcast manager
         BroadcastReceiver myReceiver = new NetworkReceiver(this);     // Create a class and set in it the behavior when an information is received
         IntentFilter intentFilter = new IntentFilter(FILTER_MAIN_ACTIVITY);     // The intentFilter action should match the action of the intent send
         localBroadcastManager.registerReceiver(myReceiver, intentFilter);       // We register the receiver for the localBroadcastManager
+
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                view.loadUrl(request.getUrl().toString());
+
+                return true;
+            }
+            @Override
+            public void onPageFinished(WebView view, final String url) {
+            }
+        });
     }
 
     /**
@@ -90,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
 
     @Override
     public void handleTextReception(String textReceived) {
+        // Todo remove
         Toast toast = Toast.makeText(getApplicationContext(), textReceived, Toast.LENGTH_SHORT);
         toast.show();
         switch (textReceived) {
@@ -114,11 +138,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
                     // Type
                     switch (receivedStrings[3]) {
                         case PROTOCOL_DISCONNECT :
-                            switch (receivedStrings[5]) {
-                                case PROTOCOL_MOTOR:
-                                    motorStateView.setText("Disconnect");
-                                    break;
-                            }
+                            motorStateView.setText("Disconnect");
                             break;
                         default:
                             // Sensor ID
@@ -130,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
                             break;
                     }
                 } else {
-                    toast = Toast.makeText(getApplicationContext(), "Received frame with incorrect format", Toast.LENGTH_SHORT);
+                    toast = Toast.makeText(getApplicationContext(), textReceived, Toast.LENGTH_SHORT);
                     toast.show();
                 }
         }
@@ -208,5 +228,15 @@ public class MainActivity extends AppCompatActivity implements Displayable {
                 2 + "," +
                 "m0," +
                 "0:0");
+    }
+
+    public void allowStreamVideoClick(View view) {
+        if(allowStreamVideo.isChecked()){
+            webView.loadUrl("http://rt.totalementbarre.fr:10000/mjpeg");
+        }
+        else{
+            webView.stopLoading();
+            webView.clearCache(true);
+        }
     }
 }

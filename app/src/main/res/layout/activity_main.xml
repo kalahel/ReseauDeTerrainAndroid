@@ -127,7 +127,7 @@
         app:layout_constraintHorizontal_bias="0.285"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.366" />
+        app:layout_constraintVertical_bias="0.404" />
 
     <TextView
         android:id="@+id/sensorTextView"
@@ -185,5 +185,29 @@
         app:layout_constraintEnd_toEndOf="@+id/connexionStateView"
         app:layout_constraintStart_toStartOf="@+id/connexionStateView"
         app:layout_constraintTop_toBottomOf="@+id/connexionStateView" />
+
+    <Switch
+        android:id="@+id/allowStreamVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stream video"
+        android:onClick="allowStreamVideoClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.008" />
+
+    <WebView
+        android:id="@+id/webViewer"
+        android:layout_width="240dp"
+        android:layout_height="140dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.082" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
