@@ -27,9 +27,15 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements Displayable {
     public final static String FILTER_MAIN_ACTIVITY = "com.ucp.reseaudeterrain.MainActivity.FILTER_MAIN_ACTIVITY";
+    public final static String PROTOCOL_INFO = "INFO";
+    public final static String PROTOCOL_DISCONNECT = "DISC";
+    public final static String PROTOCOL_GET = "GET";
+    public final static String PROTOCOL_MOTOR = "m0";
+
 
     private TextView buttonStateView;
     private TextView sensorStateView;
+    private TextView motorStateView;
     private TextView connexionStateView;
     private Button retryConnectionButton;
     private LocalBroadcastManager localBroadcastManager;
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
 
         buttonStateView = findViewById(R.id.buttonStateView);
         sensorStateView = findViewById(R.id.sensorStateView);
+        motorStateView = findViewById(R.id.motorStateView);
         connexionStateView = findViewById(R.id.connexionStateView);
         retryConnectionButton = findViewById(R.id.retryConnectionButton);
         this.localBroadcastManager = LocalBroadcastManager.getInstance(this);   // Get an instance of a broadcast manager
@@ -97,9 +104,35 @@ public class MainActivity extends AppCompatActivity implements Displayable {
             case ClientListener
                     .CONNEXION_LOST_TAG:
                 this.connexionStateView.setText("Disconnected");
+                this.motorStateView.setText("Disconnected");
                 this.retryConnectionButton.setVisibility(View.VISIBLE);
                 this.isConnected = false;
                 break;
+            default:
+                String[] receivedStrings = textReceived.split(",");
+                if (receivedStrings.length == 7) {
+                    // Type
+                    switch (receivedStrings[3]) {
+                        case PROTOCOL_DISCONNECT :
+                            switch (receivedStrings[5]) {
+                                case PROTOCOL_MOTOR:
+                                    motorStateView.setText("Disconnect");
+                                    break;
+                            }
+                            break;
+                        default:
+                            // Sensor ID
+                            switch (receivedStrings[5]) {
+                                case PROTOCOL_MOTOR:
+                                    motorStateView.setText(receivedStrings[6]);
+                                    break;
+                            }
+                            break;
+                    }
+                } else {
+                    toast = Toast.makeText(getApplicationContext(), "Received frame with incorrect format", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
         }
     }
 
