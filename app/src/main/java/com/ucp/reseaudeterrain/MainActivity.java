@@ -199,4 +199,14 @@ public class MainActivity extends AppCompatActivity implements Displayable {
                 "m0," +
                 "0:20");
     }
+
+    public void resetClick(View view) {
+        networkBackendService.sendMessageToServer(NetworkBackendService.LOCAL_DEST_TAG + "," +
+                NetworkBackendService.SOURCE_TAG + "," +
+                (new Date()).getTime() / 1000 + "," +
+                "RESET," +
+                2 + "," +
+                "m0," +
+                "0:0");
+    }
 }
