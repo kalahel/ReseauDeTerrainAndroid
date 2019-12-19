@@ -4,6 +4,7 @@ import com.ucp.reseaudeterrain.network.services.ClientInterfaceTCP;
 import com.ucp.reseaudeterrain.network.services.NetworkBackendService;
 
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * It's mandatory to use thread to use socket
@@ -15,7 +16,6 @@ public class BackgroundRunnableConnection implements Runnable {
     private NetworkBackendService networkBackendService;
     public final static String SERVER_UNREACHABLE_TAG = "SERVER_UNREACHABLE";
     public final static String SERVER_REACHED_TAG = "SERVER_REACHED";
-
 
 
     public BackgroundRunnableConnection(NetworkBackendService networkBackendService, ClientInterfaceTCP clientInterfaceTCP) {
@@ -36,7 +36,10 @@ public class BackgroundRunnableConnection implements Runnable {
             if (this.clientInterfaceTCP.getConnected()) {
                 new Thread(new BackgroundRunnableSendString(this.clientInterfaceTCP,
                         this.networkBackendService,
-                        "Phone connection established")).start();
+                        "," +
+                                NetworkBackendService.SOURCE_TAG + "," +
+                                (new Date()).getTime() / 1000 +
+                                ",AUTH,1,," + NetworkBackendService.SOURCE_TAG)).start();
                 this.networkBackendService.sendMessageToReceiver(SERVER_REACHED_TAG);
             } else
                 this.networkBackendService.sendMessageToReceiver(SERVER_UNREACHABLE_TAG);

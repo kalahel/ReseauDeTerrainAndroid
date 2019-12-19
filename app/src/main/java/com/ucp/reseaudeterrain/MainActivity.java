@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
                 "SET," +
                 2 + "," +
                 "m0," +
-                "10:0");
+                "20:0");
     }
 
     public void leftClick(View view) {
@@ -138,12 +138,32 @@ public class MainActivity extends AppCompatActivity implements Displayable {
                 "SET," +
                 2 + "," +
                 "m0," +
-                "-10:0");
+                "-20:0");
     }
 
     public void retryConnection(View view) {
         if (!isConnected) {
             this.reEstablishConnection();
         }
+    }
+
+    public void upClick(View view) {
+        networkBackendService.sendMessageToServer(NetworkBackendService.LOCAL_DEST_TAG + "," +
+                NetworkBackendService.SOURCE_TAG + "," +
+                (new Date()).getTime() / 1000 + "," +
+                "SET," +
+                2 + "," +
+                "m0," +
+                "0:-20");
+    }
+
+    public void downClick(View view) {
+        networkBackendService.sendMessageToServer(NetworkBackendService.LOCAL_DEST_TAG + "," +
+                NetworkBackendService.SOURCE_TAG + "," +
+                (new Date()).getTime() / 1000 + "," +
+                "SET," +
+                2 + "," +
+                "m0," +
+                "0:20");
     }
 }

@@ -124,7 +124,7 @@ public class NetworkBackendService extends Service {
         Log.d(CLASS_TAG, "Trying To connect");
         new Thread(new BackgroundRunnableConnection(this, this.clientInterfaceTCP)).start();
         //this.sendMessageToServer("BPING");
-        this.sendMessageToServer("," + SOURCE_TAG + "," + (new Date()).getTime() / 1000 + ",AUTH,,," + SOURCE_TAG);
+        //this.sendMessageToServer("," + SOURCE_TAG + "," + (new Date()).getTime() / 1000 + ",AUTH,1,," + SOURCE_TAG);
     }
 
     public void reEstablishConnection() {
