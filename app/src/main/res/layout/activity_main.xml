@@ -113,11 +113,11 @@
         android:layout_height="wrap_content"
         android:text="Disconnected"
         app:layout_constraintBottom_toBottomOf="@+id/connexionTextView"
-        app:layout_constraintEnd_toEndOf="@+id/buttonStateView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/buttonStateView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.305"
+        app:layout_constraintStart_toEndOf="@+id/connexionTextView"
         app:layout_constraintTop_toTopOf="@+id/connexionTextView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/buttonTextView"
@@ -149,10 +149,11 @@
         android:layout_height="wrap_content"
         android:text="Disconnected"
         app:layout_constraintBottom_toBottomOf="@+id/sensorTextView"
-        app:layout_constraintEnd_toEndOf="@+id/buttonStateView"
-        app:layout_constraintStart_toStartOf="@+id/buttonStateView"
-        app:layout_constraintTop_toBottomOf="@+id/buttonStateView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toEndOf="@+id/sensorTextView"
+        app:layout_constraintTop_toTopOf="@+id/sensorTextView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/buttonStateView"
@@ -161,7 +162,7 @@
         android:text="Disconnected"
         app:layout_constraintBottom_toBottomOf="@+id/buttonTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.409"
+        app:layout_constraintHorizontal_bias="0.463"
         app:layout_constraintStart_toEndOf="@+id/buttonTextView"
         app:layout_constraintTop_toTopOf="@+id/buttonTextView"
         app:layout_constraintVertical_bias="0.0" />
@@ -184,10 +185,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Disconnected"
-        app:layout_constraintBottom_toTopOf="@+id/buttonStateView"
-        app:layout_constraintEnd_toEndOf="@+id/connexionStateView"
-        app:layout_constraintStart_toStartOf="@+id/connexionStateView"
-        app:layout_constraintTop_toBottomOf="@+id/connexionStateView" />
+        app:layout_constraintBottom_toBottomOf="@+id/motorTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toEndOf="@+id/motorTextView"
+        app:layout_constraintTop_toTopOf="@+id/motorTextView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Switch
         android:id="@+id/allowStreamVideo"
@@ -231,8 +234,10 @@
         android:layout_height="wrap_content"
         android:text="Disconnected"
         app:layout_constraintBottom_toBottomOf="@+id/ultraSoundTextView"
-        app:layout_constraintEnd_toEndOf="@+id/sensorStateView"
-        app:layout_constraintStart_toStartOf="@+id/sensorStateView"
-        app:layout_constraintTop_toTopOf="@+id/ultraSoundTextView" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.294"
+        app:layout_constraintStart_toEndOf="@+id/ultraSoundTextView"
+        app:layout_constraintTop_toTopOf="@+id/ultraSoundTextView"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

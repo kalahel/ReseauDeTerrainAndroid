@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
         BroadcastReceiver myReceiver = new NetworkReceiver(this);     // Create a class and set in it the behavior when an information is received
         IntentFilter intentFilter = new IntentFilter(FILTER_MAIN_ACTIVITY);     // The intentFilter action should match the action of the intent send
         localBroadcastManager.registerReceiver(myReceiver, intentFilter);       // We register the receiver for the localBroadcastManager
-
+        setSensorsDisconnected();
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
@@ -156,7 +156,10 @@ public class MainActivity extends AppCompatActivity implements Displayable {
                                     motorStateView.setTextColor(Color.BLACK);
                                     break;
                                 case PROTOCOL_BUTTON_SENSOR :
-                                    buttonStateView.setText(receivedStrings[6]);
+                                    if(Double.parseDouble(receivedStrings[6]) > 500)
+                                        buttonStateView.setText("Pressed");
+                                    else
+                                        buttonStateView.setText("Released");
                                     buttonStateView.setTextColor(Color.BLACK);
                                     break;
                                 case PROTOCOL_LIGHT_SENSOR :
@@ -202,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
                 "SET," +
                 2 + "," +
                 "m0," +
-                "20:0");
+                "15:0");
     }
 
     public void leftClick(View view) {
@@ -212,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
                 "SET," +
                 2 + "," +
                 "m0," +
-                "-20:0");
+                "-15:0");
     }
 
     public void retryConnection(View view) {
@@ -228,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
                 "SET," +
                 2 + "," +
                 "m0," +
-                "0:-20");
+                "0:-15");
     }
 
     public void downClick(View view) {
@@ -238,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements Displayable {
                 "SET," +
                 2 + "," +
                 "m0," +
-                "0:20");
+                "0:15");
     }
 
     public void resetClick(View view) {
